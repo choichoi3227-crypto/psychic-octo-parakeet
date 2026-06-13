@@ -118,3 +118,17 @@ R2 사용 안 함.
 
 ## 확인 필요
 위 "워드프레스형 의미 재정의"(특히 PHP→JS, MySQL→SQLite, phpMyAdmin→자체 UI, SFTP 제거, nginx=Worker)를 그대로 진행해도 될까요? 동의하시면 1번부터 시작하겠습니다.
+
+---
+
+## 현재 구현 파일
+
+이 레포에는 CloudPress MVP 스캐폴드가 포함됩니다.
+
+- `src/routes/*`: 랜딩, 인증, 대시보드, 호스팅 생성/상세, 계정, 문서, 가격 화면
+- `src/lib/*.functions.ts`: 인증, 자격증명, 호스팅 프로비저닝 서버 함수 초안
+- `src/lib/wp-template.server.ts`: 사용자 repo에 업로드할 WP 호환 파일 트리 및 SQLite 시드 SQL 생성기
+- `src/db/schema.sql`: D1 최소 메타데이터 스키마
+- `src/worker-template/index.js`: 사용자 Worker 템플릿
+
+Cloudflare Workers의 제약상 실제 PHP/nginx/SFTP 데몬을 실행하지 않고, README 상단의 합의된 정의처럼 WP 호환 JS Worker, SQLite/sql.js, React/HTML 관리 UI, GitHub Contents API 파일 관리자로 구현합니다.
