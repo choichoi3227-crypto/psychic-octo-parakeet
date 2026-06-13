@@ -1,0 +1,3 @@
+CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY, email TEXT NOT NULL UNIQUE, password_hash TEXT NOT NULL, created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS hostings (id TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES users(id), slug TEXT NOT NULL UNIQUE, repo_full_name TEXT NOT NULL, user_worker_url TEXT NOT NULL, proxy_worker_url TEXT NOT NULL, blogger_blog_id TEXT NOT NULL, created_at TEXT NOT NULL, last_sync_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS provision_jobs (id TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES users(id), status TEXT NOT NULL, log TEXT NOT NULL, created_at TEXT NOT NULL);

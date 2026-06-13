@@ -1,0 +1,2 @@
+import '../../../styles/dashboard.css';
+export function NewHostingPage() { return <main className="shell"><h1>새 호스팅 만들기</h1><div className="grid"><section className="card"><h2>1. 이름</h2><p className="muted">소문자 slug를 입력합니다.</p></section><section className="card"><h2>2. 토큰 검증</h2><p className="muted">GitHub PAT, Blogger API key, Cloudflare Global API key를 확인합니다.</p></section><section className="card"><h2>3. 옵션</h2><p className="muted">관리자/DB 계정은 보안 생성됩니다.</p></section><section className="card"><h2>4. 프로비저닝</h2><pre className="log">대기 중...</pre></section></div></main>; }

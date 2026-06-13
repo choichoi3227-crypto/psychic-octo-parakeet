@@ -1,0 +1,1 @@
+export async function mountCloudPressBridge(root = document.body) { const target = document.createElement('section'); target.dataset.cloudpressBridge = 'true'; target.textContent = 'CloudPress bridge mounted'; root.append(target); }
