@@ -8,7 +8,7 @@ export async function createWordPressSeed(slug: string, adminEmail: string): Pro
   const adminHash = await sha256(adminPassword);
   const now = new Date().toISOString();
   const sqliteSchema = buildSqliteSeed({ slug, adminEmail, adminHash, now });
-  return { adminUsername: 'admin_' + slug.replace(/[^a-z0-9]/gi, '').slice(0, 10), adminPassword, databaseUsername: 'db_' + slug.replace(/[^a-z0-9]/gi, '').slice(0, 10), databasePassword, files: { 'wp-admin/index.html': wpAdminHtml(slug), 'wp-content/themes/twentytwentyfour/style.css': themeCss(), 'wp-content/plugins/hello.php': '<?php /* CloudPress compatibility placeholder. */', 'wp-content/database/schema.sql': sqliteSchema, 'worker/index.js': workerTemplate(slug), 'worker/wrangler.toml': workerWrangler(slug), '.github/workflows/deploy.yml': deployWorkflow() } };
+  return { adminUsername: 'admin_' + slug.replace(/[^a-z0-9]/gi, '').slice(0, 10), adminPassword, databaseUsername: 'db_' + slug.replace(/[^a-z0-9]/gi, '').slice(0, 10), databasePassword, files: { 'wp-admin/index.html': wpAdminHtml(slug), 'wp-content/themes/twentytwentyfour/style.css': themeCss(), 'wp-content/plugins/hello.php': '<?php /* CloudPress compatibility placeholder. */', 'wp-content/database/schema.sql': sqliteSchema, 'worker/index.js': workerTemplate(slug) } };
 }
 
 function buildSqliteSeed(input: { slug: string; adminEmail: string; adminHash: string; now: string }) {
@@ -16,6 +16,4 @@ function buildSqliteSeed(input: { slug: string; adminEmail: string; adminHash: s
 }
 function wpAdminHtml(slug: string) { return `<!doctype html><html><head><title>${slug} wp-admin</title></head><body><div id="root">CloudPress wp-admin</div></body></html>`; }
 function themeCss() { return 'body{font-family:system-ui,sans-serif;margin:0;color:#191f28}'; }
-function workerWrangler(slug: string) { return `name = "${slug}"\nmain = "index.js"\ncompatibility_date = "2026-06-13"\n`; }
-function deployWorkflow() { return `name: Deploy Worker\non: [push]\njobs:\n  deploy:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: cloudflare/wrangler-action@v3\n        with:\n          apiToken: \${{ secrets.CLOUDFLARE_API_TOKEN }}\n          workingDirectory: worker\n`; }
 function workerTemplate(slug: string) { return `export default { async fetch(request) { const url = new URL(request.url); if (url.pathname === '/bridge.js') return new Response("console.log('CloudPress bridge: ${slug}')", { headers: { 'content-type': 'application/javascript' } }); if (url.pathname.startsWith('/wp-admin/database')) return new Response('<h1>CloudPress phpMyAdmin-compatible SQLite UI</h1>', { headers: { 'content-type': 'text/html;charset=utf-8' } }); if (url.pathname.startsWith('/wp-admin/files')) return new Response('<h1>CloudPress file manager</h1>', { headers: { 'content-type': 'text/html;charset=utf-8' } }); return new Response('<h1>${slug}</h1><p>Serverless WordPress-compatible site on Cloudflare Workers.</p>', { headers: { 'content-type': 'text/html;charset=utf-8', 'cache-control': 'public, max-age=60' } }); } }`; }
