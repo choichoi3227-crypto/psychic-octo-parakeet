@@ -1,0 +1,2 @@
+import '../../styles/dashboard.css';
+export function DashboardPage() { return <main className="shell dashboard-layout"><aside className="card side"><h2>CloudPress</h2><a className="btn" href="/dashboard/hostings/new">새 호스팅</a></aside><section><h1>내 호스팅</h1><div className="grid"><article className="card"><div className="metric">0</div><p className="muted">생성된 호스팅</p></article><article className="card"><h3>다음 단계</h3><p>GitHub, Blogger, Cloudflare 자격증명을 저장한 뒤 프로비저닝을 시작하세요.</p></article></div></section></main>; }

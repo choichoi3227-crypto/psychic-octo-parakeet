@@ -1,0 +1,17 @@
+name = "cloudpress"
+main = "./src/cloudflare-worker.ts"
+compatibility_date = "2026-06-13"
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "cloudpress"
+database_id = "local-cloudpress"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "local-cloudpress-kv"
